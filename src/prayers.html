@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="PrayerTime">
+    <meta name="description" content=" Get accurate prayer times for your region with our simple and efficient tool. Easy access, designed for simplicity and effectiveness. Stay connected to faith. ">
+    <title>PrayerTime.</title>
+
+    <script src="../howler/dist/howler.js"></script>
+
+
+
+    <script type="module" src="prayers.js"></script>
+    
+    <link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gulzar&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap" rel="stylesheet">
+    
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-65S11RJ383"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-65S11RJ383');
+    </script>
+
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "miqo3c1phd");
+    </script>
+</head>
+<body class="overflow-x-hidden garamond primary-dark text-white ">
+    <nav class="navbar primary d-flex flex-nowrap">
+
+        <div class=" col container justify-content-end justify-content-lg-center flex-grow-1 flex-lg-grow-0">
+            <a class="navbar-brand px-5" href="../index.html">
+                <h1 class="text-white px-5">Prayertime.</h1>
+            </a>
+        </div>
+        <div class=" col container justify-content-center flex-grow-0 flex-lg-grow-1">
+            <div class="container d-flex justify-content-center gap-5 d-none" id="menu"> 
+                <!-- d-lg-flex -->
+        
+                <div class="d-flex gap-2 primary-dark p-3 rounded-2 align-items-center">
+                    <input class="form-control" type="text" id="country" placeholder="Country">
+                    <input class="form-control" type="text" id="city" placeholder="City">
+                    <button type="button" id="enterLocation" class="btn btn-outline-light">Enter</button>
+                    <p class="text-white m-0">OR</p>
+                    <button type="button" id="location" class="btn btn-outline-light">Detect</button>
+                </div>
+    
+                <div class="dropdown d-flex gap-2 primary-dark p-3 rounded-2">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Muslim World League
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li class="dropdown-item">University of Islamic Sciences, Karachi</li>
+                      <li class="dropdown-item">Islamic Society of North America (ISNA)</li>
+                      <li class="dropdown-item">Muslim World League</li>
+                      <li class="dropdown-item">Umm Al-Qura University, Makkah</li>
+                      <li class="dropdown-item">Egyptian General Authority of Survey</li>
+                      <li class="dropdown-item">Institute of Geophysics, University of Tehran</li>
+                      <li class="dropdown-item">Gulf Region</li> 
+                      <li class="dropdown-item">Kuwait</li>
+                      <li class="dropdown-item">Qatar</li>
+                    </ul>
+    
+                    <div>
+                        <button type="button" id="reset" class="btn btn-outline-light">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                        </button>
+                    </div>
+                    
+                </div>  
+            </div>
+        </div>
+        
+        
+        <div class=" col container justify-content-center flex-grow-0 px-5 ">
+            <div class="px-5">
+                <button type="button" id="menuToggle" class="btn btn-outline-light btn-lg d-none d-lg-flex ">
+                    <i class="bi bi-list"></i>
+                    <!-- <p id="menuToggleText"></p> -->
+                </button>  
+            </div>
+            
+        </div>
+
+        
+        
+            
+    </nav>
+
+    <div class=" loads position-absolute w-100 h-100 z-3 d-flex justify-content-center align-items-center">
+        <div class="lds-ripple"><div></div><div></div></div>
+    </div>
+
+    <section class="p-5 my-3 my-5 h-100">
+        <h1 id="warning" class="text-danger"></h1>
+        <div class="d-flex container py-4 flex-row justify-content-between">
+            <h1 id="date" class="">...</h1>
+            <h1 id="date-ar" class="">...</h1>
+        </div>
+        <div class="d-flex container py-4 flex-row justify-content-between">
+            <h1 id="time" class="">...</h1>
+            <h1 id="time-ar" class="">...</h1>
+        </div>
+        <div class="container bottom-0">
+            <div class="row text-center flex-row align-items-center">
+
+                <div class="col-md my-4">
+                    <div id="card1" class="card border-secondary-custom border-2">
+                        <div class="card-body text-center">
+                            <h1 id="card1iconC" class="d-none"><i class="bi bi-check"></i></h1>
+                            <div id="card1iconA" class="h1 mt-4 mb-3 d-none display-1">
+                                <i class="bi bi-alarm"></i>
+                            </div>
+                            <div id="card1iconB" class="h1 mt-4 mb-3 d-none">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <h3 class="card-title mt-3 mb-2">Fajr</h3>
+                            <h3 class="card-title mb-5">فجر</h3>
+                            <h4 id="timetext1" class="card-title mt-3 mb-2"></h2>
+                                <div class="container d-flex flex-row justify-content-around">
+                                <h2 id="Fajr" class="card-text my-3"></h2>
+                                <h2 class=" my-3"><i class="bi bi-sunrise"></i></h2>
+                            </div>
+                            
+                            <!-- <button class="btn btn-outline-dark my-3">Discover</button> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md my-4">
+                    <div id="card2" class="card border-secondary-custom border-2">
+                        <div class="card-body text-center">
+                            <h1 id="card2iconC" class="d-none"><i class="bi bi-check"></i></h1>
+                            <div id="card2iconA" class="h1 my-4 d-none display-1">
+                                <i class="bi bi-alarm"></i>
+                            </div>
+                            <div id="card2iconB" class="h1 mt-4 mb-3 d-none">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <h3 class="card-title mt-3 mb-2">Dhuhr</h3>
+                            <h3 class="card-title mb-5">ظهر</h3>
+                            <h4 id="timetext2" class="card-title mt-3 mb-2"></h4>
+                            <div class="container d-flex flex-row justify-content-around">
+                                <h2 id="Dhuhr" class="card-text my-3"></h2>
+
+                                <h2 class="my-3"><i class="bi bi-brightness-high"></i></h2>
+                            </div>
+                            <!-- <button class="btn btn-outline-dark my-3">Discover</button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md my-4">
+                    <div id="card3" class="card border-secondary-custom border-2">
+                        <div class="card-body text-center">
+                            <h1 id="card3iconC" class="d-none"><i class="bi bi-check"></i></h1>
+                            <div id="card3iconA" class="h1 my-4 d-none display-1">
+                                <i class="bi bi-alarm"></i>
+                            </div>
+                            <div id="card3iconB" class="h1 mt-4 mb-3 d-none">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <h3 class="card-title mt-3 mb-2">Asr</h3>
+                            <h3 class="card-title mb-5">عصر</h3>
+                            <h4 id="timetext3" class="card-title mt-3 mb-2"></h4>
+                            <div class="container d-flex flex-row justify-content-around">
+                                <h2 id="Asr" class="card-text my-3"></h2>
+                                <h2 class=" my-3"><i class="bi bi-cloud-sun"></i></h2>
+                            </div>
+                            <!-- <button class="btn btn-outline-dark my-3">Discover</button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md my-4">
+                    <div id="card4" class="card border-secondary-custom border-2">
+                        <div class="card-body text-center">
+                            <h1 id="card4iconC" class="d-none"><i class="bi bi-check"></i></h1>
+                            <div id="card4iconA" class="h1 my-4 d-none display-1">
+                                <i class="bi bi-alarm"></i>
+                            </div>
+                            <div id="card4iconB" class="h1 mt-4 mb-3 d-none">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <h3 class="card-title mt-3 mb-2">Maghrib</h3>
+                            <h3 class="card-title mb-5">مغرب</h3>
+                            <h4 id="timetext4" class="card-title mt-3 mb-2"></h4>
+                            <div class="container d-flex flex-row justify-content-around">
+                                <h2 id="Maghrib" class="card-text my-3"></h2>
+                                <h2 class=" my-3"><i class="bi bi-sunset"></i></h2>
+                            </div>
+                            <!-- <button class="btn btn-outline-dark my-3">Discover</button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md my-4">
+                    <div id="card5" class="card border-2">
+                        <div class="card-body text-center">
+                            <h1 id="card5iconC" class="d-none"><i class="bi bi-check"></i></h1>
+                            <div id="card5iconA" class="h1 my-4 d-none display-1">
+                                <i class="bi bi-alarm"></i>
+                            </div>
+                            <div id="card5iconB" class="h1 mt-4 mb-3 d-none">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <h3 class="card-title mt-3 mb-2">Isha</h3>
+                            <h3 class="card-title mb-5">عشاء</h3>
+                            <h4 id="timetext5" class="card-title mt-3 mb-2"></h4>
+                            <div class="container d-flex flex-row justify-content-around">
+                                <h2 id="Isha" class="card-text my-3"></h2>
+                                <h2 class=" my-3"><i class="bi bi-moon"></i></h2>
+                            </div>
+                            <!-- <button class="btn btn-outline-dark my-3">Discover</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container py-3 bottom-0">
+            <h1 id="place" class="text-center fs-5">...</h1>
+        </div>
+    </section>
+
+    <script src="../bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script>
+        document.getElementById("reset").addEventListener("click", remove);
+        document.getElementById('dropdownMenuButton1').textContent = localStorage.getItem('chosenItem') || 'Muslim World League';
+        function remove(){
+            localStorage.removeItem('chosenItem');
+            history.go(0)
+        }
+        
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function() {
+            // Get the text content of the clicked item
+            var chosenItem = this.textContent;
+            
+            // Save the chosen item to local storage
+            localStorage.setItem('chosenItem', chosenItem);
+            history.go(0)
+        });
+        });
+
+        // Access the chosen item from local storage
+        var storedItem = localStorage.getItem('chosenItem');
+        // console.log('Stored Item:', storedItem);
+
+        let toggleBtn = document.getElementById("menuToggle");
+        let toggleText = document.getElementById("menuToggleText");
+        let toggled = false
+
+        let menu = document.getElementById("menu")
+
+        toggleBtn.addEventListener("click", ()=>{
+            toggle(toggled)
+        })
+
+        function toggle(_toggled){
+            if(_toggled){
+                // toggleBtn.classList.add("rotate")
+                menu.classList.add("d-none")
+                _toggled = false
+            }else{
+                // toggleBtn.classList.remove("rotate")
+                menu.classList.remove("d-none")
+                
+                _toggled = true
+            }
+            toggled = _toggled
+            // toggleText.innerText = toggled ? "Hide Menu" : "Show Menu"
+        }
+
+
+        // Function to hide/show navbar elements based on screen size
+        function toggleNavbarElements() {
+            // Get the container holding navbar elements
+            var navbarContent = document.getElementById("navbarContent");
+            if (window.innerWidth < 768) {
+                // Hide elements on small screens
+                // navbarContent.querySelectorAll(".menu").forEach(function(element) {
+                //     element.style.display = "none";
+                // });
+
+                toggle(true)
+            } else {
+                // Show elements on larger screens
+                // navbarContent.querySelectorAll(".menu").forEach(function(element) {
+                //     element.style.display = "flex"; 
+                // });
+
+                toggle(true)
+            }
+        }
+
+        // Initial call to set navbar elements visibility on page load
+        toggleNavbarElements();
+
+        // Listen for window resize events to dynamically adjust navbar elements visibility
+        window.addEventListener("resize", toggleNavbarElements);
+
+
+
+
+
+
+
+
+
+
+
+
+        function timeLeft(currentTime, targetTime) {
+            // Parse the current time
+            const [currentHours, currentMinutes] = currentTime.split(':').map(Number);
+            const currentDate = new Date();
+            currentDate.setHours(currentHours, currentMinutes, 0, 0);
+
+            // Parse the target time
+            const [targetHours, targetMinutes] = targetTime.split(':').map(Number);
+            const targetDate = new Date();
+            targetDate.setHours(targetHours, targetMinutes, 0, 0);
+
+            // Calculate the difference in milliseconds
+            let diff = targetDate - currentDate;
+
+            // If the target time is earlier than the current time, assume it's the next day
+            if (diff < 0) {
+                targetDate.setDate(targetDate.getDate() + 1);
+                diff = targetDate - currentDate;
+            }
+
+            // Convert the difference to hours and minutes
+            const hoursLeft = Math.floor(diff / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            // Format the result as "HH:MM"
+            const formattedHours = String(hoursLeft).padStart(2, '0');
+            const formattedMinutes = String(minutesLeft).padStart(2, '0');
+
+            return `${formattedHours}:${formattedMinutes}`;
+        }
+
+        // Example usage
+        const currentTime = "6:56";
+        const targetTime = "5:29";
+        // console.log(timeLeft(currentTime, targetTime)); // Output: "02:54"
+
+        function checkTimeStatus(currentTime, targetTime) {
+            // Parse the current time
+            const [currentHours, currentMinutes] = currentTime.split(':').map(Number);
+            const currentDate = new Date();
+            currentDate.setHours(currentHours, currentMinutes, 0, 0);
+
+            // Parse the target time
+            const [targetHours, targetMinutes] = targetTime.split(':').map(Number);
+            const targetDate = new Date();
+            targetDate.setHours(targetHours, targetMinutes, 0, 0);
+
+            // Calculate the difference in milliseconds
+            const diff = targetDate - currentDate;
+
+            // Determine if the target time is in the future or has passed
+            if (diff > 0) {
+                return "not yet";
+            } else {
+                return "passed";
+            }
+        }
+
+        // console.log(checkTimeStatus(currentTime, targetTime))
+
+    </script>
+</body>
+</html>
